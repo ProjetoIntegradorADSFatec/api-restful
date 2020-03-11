@@ -1,7 +1,7 @@
 # API-RESTful
 
-![Java8](https://img.shields.io/badge/java-1.8-green)
-![spring boot](https://img.shields.io/badge/Spring&nbsp;Boot-2.2.5-green)
+![Python3](https://img.shields.io/badge/python-3.6-green)
+![Flask](https://img.shields.io/badge/flask-1.1.1-green)
 
 Projeto Integrador entre o sexto período da Faculdade de Tecnologia de São José dos Campos, Professor Jessen Vidal de *Análise e Desenvolvimento de Sistemas* e a empresa *Visiona*, para qual nos forneceu o problema da identificação de talhões em imagens de sensoriamento remoto. 
 
