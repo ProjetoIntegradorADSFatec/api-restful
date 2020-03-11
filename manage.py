@@ -1,7 +1,7 @@
 import contextlib
 import os
 from pathlib import Path
-from api_flask import app
+from api_flask.controller import app
 from flask_script import Manager
 
 manager = Manager(app)
@@ -25,7 +25,7 @@ def run():
     except ValueError:
         port = 5000
 
-    app.run(host, port)
+    app.run(host, port, debug=True)
 
 if __name__ == '__main__':
     manager.run()
