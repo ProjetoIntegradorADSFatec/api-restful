@@ -1,7 +1,7 @@
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from . import pg as creds
 
 class DBEngine(object):
 
@@ -14,7 +14,16 @@ class DBEngine(object):
     @staticmethod
     def get_engine():
         if DBEngine.ENGINE is None:
-            DBEngine.ENGINE = create_engine('postgresql://postgres:mysecretpassword@localhost:5433/template_postgis', echo=DBEngine.ECHO)
+            DBEngine.ENGINE = create_engine(
+                'postgresql://{user}:{password}@{host}:{port}/{database}'.format(
+                    user = creds.pgUser,
+                    password = creds.pgPassWord,
+                    host = creds.pgHost,
+                    port = creds.pgPort,
+                    database = creds.pgDataBase
+                ),
+                echo=DBEngine.ECHO
+            )
         return DBEngine.ENGINE
 
     @staticmethod
