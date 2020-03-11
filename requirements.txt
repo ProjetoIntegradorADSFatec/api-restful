@@ -1,7 +1,7 @@
 psycopg2
 numpy
 pandas
-geoalchemy
+geoalchemy2
 sqlalchemy
 georaster
 Flask
@@ -9,4 +9,5 @@ flask-api
 flask_cors
 flask_restful
 flask_jsonpify
+flask_script
 docker-py

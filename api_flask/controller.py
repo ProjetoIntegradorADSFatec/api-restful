@@ -1,6 +1,8 @@
-import json
-import datetime
+
 import pandas as pd
+
+
+from datetime import date, datetime
 
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -8,7 +10,8 @@ from flask_restful import Resource, Api
 from flask_jsonpify import *
 from flask.json import JSONEncoder
 
-from datetime import date, datetime
+from .model.brasil import Brasil
+from .model.database import DBEngine
 
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
@@ -27,15 +30,19 @@ app.json_encoder = CustomJSONEncoder
 api = Api(app)
 CORS(app)
 
-@app.route("/")
-def hello():
-    return jsonify({ 'message' : 'Hello World!!!' })
+@app.route("/hello", methods=['GET', 'POST'])
+def helloName():
+    if request.method == 'GET':
+        return { "Message" : "Hello " + str(request.args['name']) + "!"}
 
-class HelloName(Resource):
-    def get(self):
-        return jsonify({ 'Message' : 'Hello ' + str(request.args['name']) + '!'})
 
-api.add_resource(HelloName,'/hello')
+@app.route("/teste_db", methods=['GET'])
+def teste_db():
+    if request.method == 'GET':
+        engine = DBEngine.get_engine()
+        session = DBEngine.open_session(instanciar=True)
+        if engine:
+            return {
+                "Message" : session.query(Brasil).filter_by(geocodigo = '3549904').first().nome1
+            }
 
-if __name__ == '__main__':
-    app.run( debug = True, host = '0.0.0.0' )
