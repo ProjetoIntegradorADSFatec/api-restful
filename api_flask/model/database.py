@@ -22,7 +22,7 @@ class DBEngine(object):
                     port = creds.pgPort,
                     database = creds.pgDataBase
                 ),
-                echo=DBEngine.ECHO
+                echo = DBEngine.ECHO
             )
         return DBEngine.ENGINE
 
