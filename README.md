@@ -5,7 +5,6 @@
 
 Projeto Integrador entre o sexto período da Faculdade de Tecnologia de São José dos Campos, Professor Jessen Vidal de *Análise e Desenvolvimento de Sistemas* e a empresa *Visiona*, para qual nos forneceu o problema da identificação de talhões em imagens de sensoriamento remoto.
 
-
 ### Projeto
 
 Este projeto consiste em:
