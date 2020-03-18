@@ -11,4 +11,3 @@ flask_restful
 flask_jsonpify
 flask_script
 docker-py
-BeautifulSoup4
