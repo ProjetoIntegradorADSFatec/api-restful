@@ -24,8 +24,8 @@ Este projeto consiste em:
     Agora no Jenkins deve-se configurar a *pipeline* de testes nos seguintes passos:
 
     1. *Clone*: Para buscar o repositório com os novos dados;
-    2. *Install*: Instala as dependências do projeto;
-    3. *Tests*: Executa os testes via `gradle test`.
+    2. *Environment*: Instala as dependências do projeto;
+    3. *Tests*: Executa os testes via `pytest`.
 
     Configuar Webhook no GitHUB para o *endpoint* do Jenkins (*URL do ngrok se foi utilizado*) e ativar a opção:
     * GitHub hook trigger for GITScm polling
@@ -38,7 +38,8 @@ Este projeto consiste em:
 
 ### Referências
  - [Visiona](http://www.visionaespacial.com.br/);
- - [Spring Boot](https://spring.io/projects/spring-boot);
+ - [Flask](https://palletsprojects.com/p/flask/);
+ - [GeoAlchemy2](https://geoalchemy-2.readthedocs.io/en/latest/);
  - [Jenkins](https://jenkins.io/);
  - [ngrok](https://ngrok.com/).
 
