@@ -6,8 +6,10 @@ from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api
 from flask_jsonpify import *
 from flask.json import JSONEncoder
+from sqlalchemy import and_
 
 from .model.brasil import Brasil
+from .model.sere import SERE
 from .model.database import DBEngine
 
 class CustomJSONEncoder(JSONEncoder):
@@ -85,7 +87,38 @@ def getMunicipios():
 def getImages():
     if request.method == 'GET':
         try:
-            return { "response" : "return base urls for download the images" }
+            lat = float(request.args['lat'])
+            lon = float(request.args['long'])
+            start_date = datetime.strptime(str(request.args['start_date']), "%Y-%m-%d")
+            end_date = datetime.strptime(str(request.args['end_date']), "%Y-%m-%d")
+            engine = DBEngine.get_engine()
+            session = DBEngine.open_session(instanciar=True)
+            sere_images = session.query(SERE).filter_by().filter(
+                and_()
+            ).order_by(SERE.image_date)
+            response = {
+                "query" : {
+                    "latitude" : lat,
+                    "longitude" : lon,
+                    "timeline" : {
+                        "start_date" : start_date,
+                        "end_date" : end_date
+                    }
+                },
+                "result" : []
+            }
+            for i in range(length(sere_images)):
+                response.get("result").append(
+                    {
+                        "latitude" : sere_images[i].latitude,
+                        "longitude" : sere_images[i].longitude,
+                        "image_date" : sere_images[i].image_date,
+                        "image_url" : sere_images[i].image_url,
+                        "font" : sere_images[i].font,
+                        "band" : sere_images[i].band
+                    }
+                )
+            return response
         except:
             return abort(500, description = { "info" : "error database connection refused!"})
     else:
