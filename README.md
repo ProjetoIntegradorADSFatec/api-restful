@@ -5,14 +5,14 @@
 
 Projeto Integrador entre o sexto período da Faculdade de Tecnologia de São José dos Campos, Professor Jessen Vidal de *Análise e Desenvolvimento de Sistemas* e a empresa *Visiona*, para qual nos forneceu o problema da identificação de talhões em imagens de sensoriamento remoto.
 
-### Projeto
+# Projeto
 
 Este projeto consiste em:
 1. Desenvolvimento de uma API RESTful para consulta de dados georreferenciados em um banco de dados PostGIS;
 2. Com dados multitemporais, utilizar-se de inteligência artificial para identificar talhões em uma área de interesse.
 
 
-### Ferramentas
+# Ferramentas
 
 - CI
 
@@ -35,11 +35,9 @@ Este projeto consiste em:
 `a definir processo de deploy.`
 
 
-### Referências
+# Referências
  - [Visiona](http://www.visionaespacial.com.br/);
  - [Flask](https://palletsprojects.com/p/flask/);
  - [GeoAlchemy2](https://geoalchemy-2.readthedocs.io/en/latest/);
  - [Jenkins](https://jenkins.io/);
  - [ngrok](https://ngrok.com/).
-
-
