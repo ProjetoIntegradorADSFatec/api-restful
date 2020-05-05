@@ -1,6 +1,0 @@
-id;latitude;longitude;font;band;image_date;image_url
-1;-13.747;-45.368;sentinel-1;VV;2017-06-12 00:00:00.717-02;http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VV_db.tif
-2;-13.747;-45.368;sentinel-1;VV;2017-06-24 00:00:00.717-02;http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170624_S1A/clip_20170624T083547_Sigma0_VV_db.tif
-3;-13.747;-45.368;sentinel-1;VV;2017-07-30 00:00:00.717-02;http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170730_S1A/clip_20170730T083549_Sigma0_VV_db.tif
-4;-13.747;-45.368;sentinel-1;VV;2017-08-11 00:00:00.717-02;http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170811_S1A/clip_20170811T083549_Sigma0_VV_db.tif
-5;-13.747;-45.368;sentinel-1;VV;2017-09-04 00:00:00.717-02;http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170904_S1A/clip_20170904T083550_Sigma0_VV_db.tif
