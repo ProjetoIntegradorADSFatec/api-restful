@@ -1,5 +1,0 @@
-pgHost = "localhost"
-pgPort = "5433"
-pgUser = "postgres"
-pgPassWord = "mysecretpassword"
-pgDataBase = "template_postgis"
