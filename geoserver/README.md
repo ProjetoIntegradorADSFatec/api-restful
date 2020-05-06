@@ -31,3 +31,7 @@ Verificar se o sistema encontra em execução no endereço [`localhost:8686/geos
 A credencial padrão do GeoServer é a seguinte:
   - *Usuário:* admin
   - *Senha:* geoserver
+
+<p align = "center">
+  <img width = "600px" src = "../docs/assets/geoserver-print.png">
+</p>

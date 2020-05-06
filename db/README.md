@@ -49,3 +49,11 @@ $ sudo chmod 777 -R ../db
 ## Criação do usuario Postgres para a API e migração dos dados em csv
 $ psql -h 0.0.0.0 -p 5480 -U postgres -d shapes -f create-tables.sql
 ```
+
+> Após a instalação do ambiente de desenvolvimento em seu navegador acesse o pgAdmin4 com o endereço `16543`.
+
+<p align = "center">
+  <img width = "600px" src = "../docs/assets/pgAdmin4-print.png">
+</p>
+
+> **Obs.:** Colocar as credenciais do arquivo `docker-compose.yml` configuradas acima.

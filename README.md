@@ -64,6 +64,29 @@ $ docker build -t spring-restful .
 $ docker run --name spring-api-restful -p 4040:8080 -d spring-restful
 ```
 
+> Após o comando `docker run` digite o seguinte `docker ps` para listar os serviços  em execução pelo seu docker instalado, a resposta deve ser a seguinte:
+
+~~~shell
+$ docker ps
+CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                            NAMES
+a06cb1ccf107        spring-restful         "java -jar /app.jar"     25 hours ago        Up 25 hours         0.0.0.0:4040->8080/tcp           spring-api-restful
+~~~
+
+> Em seu navegador digite o seguinte link `localhost:8080/cache/list` e verá a seguinte resposta:
+
+~~~json
+[
+    {
+        "id" : 16324,
+        "name" : "clip_20170612T083546_Sigma0_VH_db.tif",
+        "description" : "clip_20170612T083546_Sigma0_VH Sentinel 1",
+        "band" : "band VH polarization effect",
+        "link" : "http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
+    },
+    ...
+]
+~~~
+
 # Referências
  - [Visiona](http://www.visionaespacial.com.br/);
  - [Jenkins](https://jenkins.io/);
