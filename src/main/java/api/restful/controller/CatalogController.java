@@ -11,57 +11,59 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-import api.restful.model.Cache;
-import api.restful.services.CacheServiceImpl;
+import api.restful.model.Catalog;
+import api.restful.services.CatalogServiceImpl;
 
 @RestController
-@RequestMapping(value = "cache")
-public class CacheController {
+@RequestMapping(value = "catalog")
+public class CatalogController {
 
 	@Autowired
-	CacheServiceImpl service = new CacheServiceImpl();
+	CatalogServiceImpl service = new CatalogServiceImpl();
 
-	public void setService(CacheServiceImpl service) {
+	public void setService(CatalogServiceImpl service) {
 		this.service = service;
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-	public List<Cache> cache_list() {
+	public List<Catalog> Catalog_list() {
 		try {
 			return this.service.list();
 		}  catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cache list not found can not connect", e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog list not found can not connect", e);
 	   	}
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
-	public Cache remove_cache(@RequestBody Cache cache) {
+	public Catalog remove_Catalog(@RequestBody Catalog catalog) {
 		try {
-			Cache usr = (Cache) this.service.findOneById(cache.getId());
-			if (this.service.remove(usr)) {
-				return usr;
+			Catalog c = (Catalog) catalog;
+			if (this.service.remove(c)) {
+				return c;
 			} else {
-				return new Cache();
+				return new Catalog();
 			}
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cache can not be deleted", e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog can not be deleted", e);
 		}
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-	public Cache add_cache(@RequestBody Cache cache) {
+	public Catalog add_Catalog(@RequestBody Catalog catalog) {
 		try {
-			Cache c = (Cache) cache;
-			if (this.service.add(c)) {
-				return c;
-			} else {
-				return new Cache();
-			}
+			Catalog c = (Catalog) catalog;
+			this.service.add(c);
+			return c;
+			// if (this.service.add(c)) {
+			// 	return c;
+			// } else {
+			// 	return new Catalog();
+			// }
 		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cache can not be created", e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Catalog can not be created", e);
 		}
 	}
 }
