@@ -1,9 +1,0 @@
-[
-    {
-        "id" : 16324,
-        "name" : "clip_20170612T083546_Sigma0_VH_db.tif",
-        "description" : "clip_20170612T083546_Sigma0_VH Sentinel 1",
-        "band" : "band VH polarization effect",
-        "link" : "http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
-    }
-]
