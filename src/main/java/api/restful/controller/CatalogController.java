@@ -55,13 +55,11 @@ public class CatalogController {
 	public Catalog add_Catalog(@RequestBody Catalog catalog) {
 		try {
 			Catalog c = (Catalog) catalog;
-			this.service.add(c);
-			return c;
-			// if (this.service.add(c)) {
-			// 	return c;
-			// } else {
-			// 	return new Catalog();
-			// }
+			if (this.service.add(c)) {
+				return c;
+			} else {
+				return new Catalog();
+			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Catalog can not be created", e);
 		}
