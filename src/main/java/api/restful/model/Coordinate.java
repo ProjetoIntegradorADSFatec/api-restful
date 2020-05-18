@@ -5,6 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -17,14 +18,16 @@ public class Coordinate {
     private double latitude;
     private double longitude;
     @ManyToOne
+    @JoinColumn(name="catalog_id")
     private Catalog catalog;
 
-    public Coordinate(){}
+    public Coordinate() {}
 
-    public Coordinate(String projection, double latitude, double longitude) {
+    public Coordinate(String projection, double latitude, double longitude, Catalog catalog) {
         this.projection = projection;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.catalog = catalog;
     }
 
     public String getProjection() {
@@ -49,5 +52,13 @@ public class Coordinate {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
 }
