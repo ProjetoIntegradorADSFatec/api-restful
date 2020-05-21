@@ -16,7 +16,7 @@ $ docker pull mdillon/postgis
 $ docker run --name postgresql -p 5480:5432 -e POSTGRES_PASSWORD=postgres -d mdillon/postgis
 ```
 
-## Crontainer docker database
+## Container docker database
 > Criação do container docker PGAdmin4 (Interface Gráfica)
 ```
 ## Download do repositório oficial
