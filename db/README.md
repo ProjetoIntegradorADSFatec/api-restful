@@ -54,7 +54,7 @@ $ psql -h 0.0.0.0 -p 5480 -U postgres -d shapes -f create-tables.sql
 ## Gerenciamento do Banco de dados
 ```
 ## Entrar no banco de dados digitar a senha cadastrada para entrar
-$ psql -h 0.0.0.0 -p 5480 -U postgres -d shapes
+$ psql -h 0.0.0.0 -p 5480 -U api_restful -d shapes
 
 ## Verificar se as tabelas e a extensão foram criadas
 shapes=> SELECT table_name FROM information_schema.tables WHERE table_schema='public';
