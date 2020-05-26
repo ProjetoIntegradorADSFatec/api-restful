@@ -41,4 +41,4 @@ ALTER TABLE public.municipios
 
 -- Copiando os dados dos municípios para o banco de dados a partir de um arquivo em csv
 
-\COPY public.municipios FROM '$(pwd)/api-restful/db/csv/municipios.csv' DELIMITER ';' CSV HEADER;
+\COPY public.municipios FROM 'csv/municipios.csv' DELIMITER ';' CSV HEADER;
