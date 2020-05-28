@@ -30,6 +30,14 @@ public class Coordinate {
         this.catalog = catalog;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getProjection() {
         return this.projection;
     }
