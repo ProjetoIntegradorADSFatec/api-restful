@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 import api.restful.model.Catalog;
+import api.restful.model.geojson.Request;
 import api.restful.services.CatalogServiceImpl;
 
 @RestController
@@ -27,7 +28,7 @@ public class CatalogController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-	public List<Catalog> Catalog_list() {
+	public List<Catalog> catalog_list() {
 		try {
 			return this.service.list();
 		}  catch (Exception e) {
@@ -35,24 +36,18 @@ public class CatalogController {
 	   	}
 	}
 
-	@CrossOrigin
-	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
-	public Catalog remove_Catalog(@RequestBody Catalog catalog) {
+	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
+	public List<Catalog> catalog_search(@RequestBody Request request) {
 		try {
-			Catalog c = (Catalog) catalog;
-			if (this.service.remove(c)) {
-				return c;
-			} else {
-				return new Catalog();
-			}
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog can not be deleted", e);
+			return this.service.search(request);
+		}  catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog list not found can not connect", e);
 		}
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-	public Catalog add_Catalog(@RequestBody Catalog catalog) {
+	public Catalog add_catalog(@RequestBody Catalog catalog) {
 		try {
 			Catalog c = (Catalog) catalog;
 			if (this.service.add(c)) {
@@ -62,6 +57,21 @@ public class CatalogController {
 			}
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Catalog can not be created", e);
+		}
+	}
+
+	@CrossOrigin
+	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
+	public Catalog remove_catalog(@RequestBody Catalog catalog) {
+		try {
+			Catalog c = (Catalog) catalog;
+			if (this.service.remove(c)) {
+				return c;
+			} else {
+				return new Catalog();
+			}
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog can not be deleted", e);
 		}
 	}
 }
