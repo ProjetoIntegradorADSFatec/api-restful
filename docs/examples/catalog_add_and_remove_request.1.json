@@ -1,0 +1,19 @@
+{
+    "name": "clip_20170612T083546_Sigma0_VH_db",
+    "description": "sentinel A image clip_Sigma0_VH_db.tif INPE",
+    "band": "VH",
+    "dateTime": "2017-06-12 08:35:46",
+    "coordinates": [
+        {
+            "projection": "EPSG:4326",
+            "latitude": -12.042006714207925,
+            "longitude": -45.8734130859375
+        },
+        {
+            "projection": "EPSG:4326",
+            "latitude": -12.224602049269444,
+            "longitude": -45.7415771484375
+        }
+	],
+    "image": "http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
+}
