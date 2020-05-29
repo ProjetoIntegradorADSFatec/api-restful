@@ -28,6 +28,10 @@ class ApiRestfulApplicationTests {
 
 	@Autowired
 	private CatalogRepository catalogRepository; 
+	@Autowired
+	private CoordinateRepository coordinateRepository;
+
+	private final static String test_projection = "EPSG:4326";
 
 	@Test
 	public void insertInCatalog() {
@@ -43,38 +47,42 @@ class ApiRestfulApplicationTests {
 		catalogRepository.save(catalog);
 		// First Step
 		assertTrue(catalog.getId() != null);
-		
-		// SET CATALOG 
-		/*
+		// Coordinate Test
 		List<Coordinate> coordinates = new ArrayList<Coordinate>();
 		coordinates.add(new Coordinate(
-			"projection",
-			1.11,
-			2.1512522,
-			null
+			test_projection,
+			-12.042006714207925,
+			-45.8734130859375,
+			catalog
 		));
-		*/
-
-	}
-
-	@Test
-	public void insertInCoordinate() {
-
+		coordinates.add(new Coordinate(
+			test_projection,
+			-12.224602049269444,
+			-45.7415771484375,
+			catalog
+		));
+		catalog.setCoordinates(coordinates);
+		catalogRepository.save(catalog);
+		coordinateRepository.saveAll(catalog.getCoordinates());
+		// Assuring that it's saved
+		for(Coordinate c : catalog.getCoordinates()) {
+			assertTrue(c.getId() != null);
+		}
 	}
 
 	@Test
 	public void searchInCatalog() {
-
+		assertTrue(true);
 	}
 
 	@Test
 	public void  deleteCoordinate() {
-
+		assertFalse(false);
 	}
 
 	@Test
 	public void deleteCatalog() {
-
+		assertTrue(true);
 	}
 
 }
