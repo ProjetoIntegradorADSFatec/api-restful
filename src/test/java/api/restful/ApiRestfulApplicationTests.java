@@ -43,7 +43,6 @@ class ApiRestfulApplicationTests {
 			new ArrayList<Coordinate>(),
 			"http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
 		);
-
 		catalogRepository.save(catalog);
 		// First Step
 		assertTrue(catalog.getId() != null);
@@ -71,8 +70,40 @@ class ApiRestfulApplicationTests {
 	}
 
 	@Test
+	public void listCatalog() {
+		assert(catalogRepository.count() == 0);
+		Catalog catalog = new Catalog(
+			"clip_20170928T083551_Sigma0_VV_db",
+			"sentinel A image clip_Sigma0_VV_db.tif INPE",
+			"VH",
+			"2017-09-28 08:35:51",
+			new ArrayList<Coordinate>(),
+			"http://www.dpi.inpe.br/obt/agricultural-database/lem/dados/cenas/Sentinel1/20170928_S1A/clip_20170928T083551_Sigma0_VV_db.tif"
+		);
+		catalogRepository.save(catalog);
+		assertTrue(catalog.getId() != null);
+		assertFalse(catalogRepository.count() > 1);
+		List<Coordinate> coordinates = new ArrayList<Coordinate>();
+		coordinates.add(new Coordinate(
+			test_projection,
+			-12.031261926409883,
+			-45.9173583984375,
+			catalog
+		));
+		coordinates.add(new Coordinate(
+			test_projection,
+			-11.857943177992869,
+			-46.5106201171875,
+			catalog
+		));
+		catalog.setCoordinates(coordinates);
+		catalogRepository.save(catalog);
+		assertFalse(catalogRepository.count() > 1);
+	}
+
+	@Test
 	public void searchInCatalog() {
-		assertTrue(true);
+		assert(catalogRepository.count() == 0);
 	}
 
 	@Test
