@@ -103,7 +103,13 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void searchInCatalog() {
-		assert(catalogRepository.count() == 0);
+		this.insertInCatalog();
+		assertFalse(catalogRepository.count() == 0);
+		assertTrue(catalogRepository.count() == 1);
+		// assertTrue(catalogRepository.existsById(1L) == true);
+		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		Catalog last = items.get(items.size() - 1);
+		assertTrue(last.getName() == "clip_20170612T083546_Sigma0_VH_db");
 	}
 
 	@Test
