@@ -1,5 +1,8 @@
 package api.restful;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import api.restful.model.Catalog;
+import api.restful.model.Coordinate;
+import api.restful.model.CatalogRepository;
+import api.restful.model.CoordinateRepository;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
@@ -16,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ApiRestfulApplicationTests {
 
 	@Autowired
-	private CatalogServiceImpl catalogService; 
+	private CatalogRepository catalogRepository; 
 
 	@Test
 	public void insertInCatalog() {
@@ -29,7 +40,7 @@ class ApiRestfulApplicationTests {
 			"http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
 		);
 
-		catalogService.add(catalog);
+		catalogRepository.save(catalog);
 		// First Step
 		assertTrue(catalog.getId() != null);
 		
