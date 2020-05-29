@@ -148,7 +148,21 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void deleteCatalog() {
-		assertTrue(true);
+		/*
+			 Insere um catálogo no sistema e o excluí verificando também se
+			suas coordenadas (Entidade Fraca) foram excluídas.
+		*/
+		this.insertInCatalog();
+		assertFalse(catalogRepository.count() == 0);
+		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		Catalog last = items.get(items.size() - 1);
+		List<Coordinate> coordinates = last.getCoordinates();
+		catalogRepository.delete(last);
+		assertFalse(catalogRepository.existsById(last.getId()));
+		// As coordenadas são uma Entidade Fraca, dependem exclusivamente de Catálogo para existir
+		for(Coordinate coord : coordinates) {
+			assertFalse(coordinateRepository.existsById(coord.getId()));
+		}
 	}
 
 }
