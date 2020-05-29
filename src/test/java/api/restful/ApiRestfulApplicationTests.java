@@ -35,6 +35,11 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void insertInCatalog() {
+		/*
+			 Insere um catálogo no banco de dados com mais de uma coordenada e
+			excecuta testes para garantir que tanto o catálogo e as coordenadas
+			foram salvas no banco (possuem id válido).
+		*/
 		Catalog catalog = new Catalog(
 			"clip_20170612T083546_Sigma0_VH_db",
 			"sentinel A image clip_Sigma0_VH_db.tif INPE",
@@ -71,6 +76,10 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void listCatalog() {
+		/*
+			 Salva um catálogo, verifica que foi salvo, então adiciona as coordenadas ao catálogo
+			e depois verifica se as tais coordenadas foram de fato salvas.
+		*/
 		assert(catalogRepository.count() == 0);
 		Catalog catalog = new Catalog(
 			"clip_20170928T083551_Sigma0_VV_db",
@@ -103,6 +112,10 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void searchInCatalog() {
+		/*
+			 Executa a inserção de catálogo do método insertInCatalog,
+			verifica se o catálogo está registrado e se seu nome está salvo corretamente.
+		*/
 		this.insertInCatalog();
 		assertFalse(catalogRepository.count() == 0);
 		assertTrue(catalogRepository.count() == 1);
@@ -114,7 +127,23 @@ class ApiRestfulApplicationTests {
 
 	@Test
 	public void  deleteCoordinate() {
-		assertFalse(false);
+		/*
+			 Insere um catálogo no banco de dados com mais de uma coordenada e
+			então remove uma das coordenadas, salva a alteração do catálogo e por fim
+			verifica se a coordenada foi de fato removida.
+		*/
+		this.insertInCatalog();
+		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		// Pode ser otimizado para uma query JPQL
+		Catalog last = items.get(items.size() - 1);
+		int coord_size = last.getCoordinates().size();
+		assertTrue(coord_size > 1);
+		Coordinate coord_item  = last.getCoordinates().remove(1);
+		catalogRepository.save(last);
+		assert(last.getCoordinates().size() == (coord_size - 1));
+		for(Coordinate coord : last.getCoordinates()) {
+			assertFalse(coord.getId() == coord_item.getId());
+		}
 	}
 
 	@Test
