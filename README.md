@@ -75,18 +75,18 @@ $ docker run --name spring-api-restful -p 4040:8080 -d spring-restful
 
 ~~~shell
 $ docker ps
-CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                            NAMES
-a06cb1ccf107        spring-restful         "java -jar /app.jar"     25 hours ago        Up 25 hours         0.0.0.0:4040->8080/tcp           spring-api-restful
+CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                              NAMES
+20b1962dad83        spring-restful         "java -jar /app.jar"     3 minutes ago       Up 3 minutes        0.0.0.0:4040->8080/tcp             spring-api-restful
 ~~~
 
-> Em seu navegador digite o seguinte link `localhost:8080/catalog/list`.
+> Em seu navegador digite o seguinte link `localhost:4040/catalog/list`.
 
 # Operações
 
 > **Listagem:** lista todas as imagens cadastradas no banco de dados PostgreSQL por método GET:
 
 ```
-GET localhost:8080/catalog/list
+GET localhost:4040/catalog/list
 ```
 ~~~json
 [
@@ -120,7 +120,7 @@ GET localhost:8080/catalog/list
 > **Cadastro de imagens:** cadastra uma imagem com os atributos definidos nos [exemplos](./docs/examples) no banco de dados PostgreSQL por método POST:
 
 ```
-POST localhost:8080/catalog/add
+POST localhost:4040/catalog/add
 ```
 ~~~json
 {
@@ -147,7 +147,7 @@ POST localhost:8080/catalog/add
 > **Busca de imagens:** busca imagens a partir de uma dado polígono formatado em [GeoJSON](https://geojson.org/) com os atributos definidos nos [exemplos](./docs/examples) em projeção **EPSG:4326** com banco de dados PostgreSQL por método POST:
 
 ```
-POST localhost:8080/catalog/search
+POST localhost:4040/catalog/search
 ```
 ~~~json
 {
