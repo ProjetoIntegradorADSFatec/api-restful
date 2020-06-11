@@ -1,5 +1,8 @@
 package api.restful.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-@Table(name="catalog")
+@Table(name = "catalog")
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

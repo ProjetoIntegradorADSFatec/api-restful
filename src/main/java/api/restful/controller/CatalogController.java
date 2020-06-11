@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -62,9 +63,9 @@ public class CatalogController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
-	public Catalog remove_catalog(@RequestBody Catalog catalog) {
+	public Catalog remove_catalog(@RequestParam String id) {
 		try {
-			Catalog c = (Catalog) catalog;
+			Catalog c = (Catalog) this.service.findById(new Long(id));
 			if (this.service.remove(c)) {
 				return c;
 			} else {

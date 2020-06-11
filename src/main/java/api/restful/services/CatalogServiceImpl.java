@@ -6,15 +6,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.text.SimpleDateFormat;
 
 import api.restful.model.Catalog;
 import api.restful.model.CatalogRepository;
 import api.restful.model.Coordinate;
 import api.restful.model.CoordinateRepository;
 import api.restful.model.geojson.Request;
-import api.restful.model.geojson.Feature;
 
 @Service("CatalogService")
 public class CatalogServiceImpl implements CatalogService {
@@ -78,7 +79,14 @@ public class CatalogServiceImpl implements CatalogService {
                     int lat = (int) coord.getLatitude();
                     int lon = (int) coord.getLongitude();
                     Point point = new Point(lat,lon);
-                    if (polygon.contains(point)) {
+                    if (
+                        polygon.contains(point) &&
+                            this.intervals(
+                                request.getDateTime().getStart(),
+                                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(cat.getDateTime()),
+                                request.getDateTime().getEnd()
+                            )
+                    ) {
                         result.add(cat);
                         break;
                     }
@@ -92,9 +100,22 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    public Catalog findById(Long id) {
+        List<Catalog> catalogs = this.list();
+        Catalog result = new Catalog();
+        for (Catalog catalog : catalogs) {
+            if (catalog.getId().equals(id)) {
+                result = catalog;
+                break;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean remove(Catalog catalog) {
         try {
-            this.catalogRepository.delete(new Catalog());
+            this.catalogRepository.delete(catalog);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,6 +148,18 @@ public class CatalogServiceImpl implements CatalogService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean intervals(Date start, Date base, Date end) {
+        if (
+            (base.compareTo(start) > 0 && base.compareTo(end) < 0) ||
+                (base.compareTo(start) == 0 || base.compareTo(end) == 0)
+        ) {
+            return true;
+        } else {
             return false;
         }
     }
