@@ -151,7 +151,10 @@ POST localhost:4040/catalog/search
 ```
 ~~~json
 {
-  "dateTime" : "2017-06-12 08:35:46",
+  "dateTime": {
+    "start": "2017-01-01",
+    "end": "2018-12-31"
+  },
   "band" : "VV",
   "geojson" : {
     "type": "FeatureCollection",
