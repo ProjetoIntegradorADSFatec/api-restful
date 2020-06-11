@@ -51,6 +51,12 @@ $ sudo chmod 777 -R ../db
 $ psql -h 0.0.0.0 -p 5480 -U postgres -d shapes -f create-tables.sql
 ```
 
+> O banco de dados de catálogo de imagens criado por essa aplicação possui o seguinte modelo de relações:
+
+<p align = "center">
+  <img width = "300px" src = "../docs/assets/db-model.png">
+</p>
+
 ## Gerenciamento do Banco de dados
 ```
 ## Entrar no banco de dados digitar a senha cadastrada para entrar
