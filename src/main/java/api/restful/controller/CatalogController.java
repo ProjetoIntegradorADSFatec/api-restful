@@ -16,6 +16,7 @@ import api.restful.model.Catalog;
 import api.restful.model.geojson.Request;
 import api.restful.services.CatalogServiceImpl;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "catalog")
 public class CatalogController {
@@ -37,6 +38,7 @@ public class CatalogController {
 	   	}
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
 	public List<Catalog> catalog_search(@RequestBody Request request) {
 		try {
