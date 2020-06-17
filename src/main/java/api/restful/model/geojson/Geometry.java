@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Geometry {
     private String type;
-    private List<List<List<Integer>>> coordinates;
+    private List<List<List<Double>>> coordinates;
 
     public Geometry() {}
 
-    public Geometry(String type, List<List<List<Integer>>> coordinates) {
+    public Geometry(String type, List<List<List<Double>>> coordinates) {
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -21,11 +21,11 @@ public class Geometry {
         this.type = type;
     }
 
-    public List<List<List<Integer>>> getCoordinates() {
+    public List<List<List<Double>>> getCoordinates() {
         return this.coordinates;
     }
 
-    public void setCoordinates(List<List<List<Integer>>> coordinates) {
+    public void setCoordinates(List<List<List<Double>>> coordinates) {
         this.coordinates = coordinates;
     }
 }

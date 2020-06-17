@@ -1,4 +1,4 @@
-package api.restful.model;
+package api.restful.model.catalog;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
