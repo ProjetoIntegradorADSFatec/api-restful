@@ -15,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.ArrayList;
 
-import api.restful.model.Catalog;
-import api.restful.model.Coordinate;
-import api.restful.model.CatalogRepository;
-import api.restful.model.CoordinateRepository;
+import api.restful.model.catalog.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -27,7 +24,7 @@ import api.restful.model.CoordinateRepository;
 class ApiRestfulApplicationTests {
 
 	@Autowired
-	private CatalogRepository catalogRepository; 
+	private CatalogRepository catalogRepository;
 	@Autowired
 	private CoordinateRepository coordinateRepository;
 
