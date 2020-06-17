@@ -178,8 +178,8 @@ POST localhost:4040/catalog/search
       "type": "Feature",
       "properties": {
         "dateTime": {
-        "start": "2010-01-01",
-        "end": "2017-12-31"
+          "start": "2010-01-01",
+          "end": "2017-12-31"
         },
         "band": "VV",
         "projection": "EPSG:4326"
