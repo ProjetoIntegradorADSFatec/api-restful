@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+// import com.fasterxml.jackson.annotation.JsonView;
 
-import api.restful.model.Catalog;
-import api.restful.model.geojson.Request;
+// import api.restful.model.views.Views;
+import api.restful.model.catalog.Catalog;
+import api.restful.model.collection.Item;
+import api.restful.model.geojson.Geojson;
 import api.restful.services.CatalogServiceImpl;
 
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "catalog")
 public class CatalogController {
 
@@ -28,27 +31,25 @@ public class CatalogController {
 		this.service = service;
 	}
 
-	@CrossOrigin
+	// @JsonView(Views.Public.class)
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-	public List<Catalog> catalog_list() {
+	public Item catalog_list() {
 		try {
-			return this.service.list();
+			return this.service.listItems();
 		}  catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog list not found can not connect", e);
 	   	}
 	}
 
-	@CrossOrigin
 	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
-	public List<Catalog> catalog_search(@RequestBody Request request) {
+	public Item catalog_search(@RequestBody Geojson geojson) {
 		try {
-			return this.service.search(request);
+			return this.service.search(geojson);
 		}  catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Catalog list not found can not connect", e);
 		}
 	}
 
-	@CrossOrigin
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
 	public Catalog add_catalog(@RequestBody Catalog catalog) {
 		try {
@@ -63,7 +64,6 @@ public class CatalogController {
 		}
 	}
 
-	@CrossOrigin
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE, produces = "application/json")
 	public Catalog remove_catalog(@RequestParam String id) {
 		try {
