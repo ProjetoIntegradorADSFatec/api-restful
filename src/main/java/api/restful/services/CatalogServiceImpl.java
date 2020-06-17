@@ -9,13 +9,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.text.SimpleDateFormat;
 
-import api.restful.model.Catalog;
-import api.restful.model.CatalogRepository;
-import api.restful.model.Coordinate;
-import api.restful.model.CoordinateRepository;
-import api.restful.model.geojson.Request;
+import api.restful.model.catalog.*;
+import api.restful.model.collection.*;
+import api.restful.model.collection.Feature;
+import api.restful.model.geojson.*;
 
 @Service("CatalogService")
 public class CatalogServiceImpl implements CatalogService {
@@ -25,8 +23,7 @@ public class CatalogServiceImpl implements CatalogService {
     @Autowired
     private CoordinateRepository coordinateRepository;
 
-    @Override
-    public List<Catalog> list() {
+    public List<Catalog> listCatalog() {
         try {
             List<Catalog> catalog_response = new ArrayList<Catalog>();
             List<Catalog> catalogs = (List<Catalog>) this.catalogRepository.findAll();
@@ -63,45 +60,96 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public List<Catalog> search(Request request) {
-        List<Catalog> catalogs = this.list();
-        List<Catalog> result = new ArrayList<Catalog>();
+    public Item listItems() {
+        try {
+            Item item = new Item(new ArrayList<Feature>(), 0, 0, "FeatureCollection");
+            List<Catalog> catalogs = (List<Catalog>) this.catalogRepository.findAll();
+            List<Coordinate> coordinates = (List<Coordinate>) this.coordinateRepository.findAll();
+            for (Catalog catalog : catalogs) {
+                Feature feature = new Feature(
+                    catalog.getId(),
+                    new ArrayList<Asset>(),
+                    new ArrayList<Double>(),
+                    catalog.getName(),
+                    new Geometry(
+                        "Polygon",
+                        new ArrayList<List<List<Double>>>()
+                    ),
+                    new Properties(),
+                    catalog.getDescription()
+                );
+                feature.getProperties().setBand(catalog.getBand());
+                feature.getAssets().add(new Asset(
+                    catalog.getBand(),
+                    catalog.getImage()
+                ));
+                feature.getGeometry().getCoordinates().add(new ArrayList<List<Double>>());
+                for (Coordinate coord : coordinates) {
+                    if ( coord.getCatalog().getId().equals(catalog.getId())) {
+                        List<Double> latlong = new ArrayList<Double>();
+                        latlong.add(new Double(coord.getLatitude()));
+                        latlong.add(new Double(coord.getLongitude()));
+                        feature.getGeometry().getCoordinates().get(0).add(latlong);
+                        feature.getBbox().add(coord.getLongitude());
+                        feature.getBbox().add(coord.getLatitude());
+                        feature.getProperties().setProjection(coord.getProjection());
+                        item.setNumberMatched(item.getNumberMatched() + 1);
+                    }
+                }
+                feature.getProperties().setDatetime(new Datetime(catalog.getDateTime(),catalog.getDateTime()));
+                item.getFeatures().add(feature);
+            }
+            item.setNumberReturned(item.getFeatures().size());
+            return item;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Item();
+        }
+    }
+
+    @Override
+    public Item search(Geojson geojson) {
+        Item item = this.listItems();
+        Item result = new Item(new ArrayList<Feature>(), 0, 0, "FeatureCollection");
         int[] x = {};
         int[] y = {};
         try {
-            for(List<Integer> lonlat : request.getGeojson().getFeatures().get(0).getGeometry().getCoordinates().get(0)) {
-                x = Arrays.copyOf(x, x.length + 1); x[x.length - 1] = lonlat.get(1);
-                y = Arrays.copyOf(y, y.length + 1); y[y.length - 1] = lonlat.get(0);
+            for(List<Double> lonlat : geojson.getFeatures().get(0).getGeometry().getCoordinates().get(0)) {
+                x = Arrays.copyOf(x, x.length + 1); x[x.length - 1] = lonlat.get(1).intValue();
+                y = Arrays.copyOf(y, y.length + 1); y[y.length - 1] = lonlat.get(0).intValue();
             }
             Polygon polygon = new Polygon(x,y, x.length);
-            for (Catalog cat : catalogs) {
-                for (Coordinate coord : cat.getCoordinates()) {
-                    int lat = (int) coord.getLatitude();
-                    int lon = (int) coord.getLongitude();
+            for (Feature feature: item.getFeatures()) {
+                for (List<Double> coord : feature.getGeometry().getCoordinates().get(0)) {
+                    int lat = coord.get(0).intValue();
+                    int lon = coord.get(1).intValue();
                     Point point = new Point(lat,lon);
                     if (
                         polygon.contains(point) &&
                             this.intervals(
-                                request.getDateTime().getStart(),
-                                new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(cat.getDateTime()),
-                                request.getDateTime().getEnd()
-                            )
+                                geojson.getFeatures().get(0).getProperties().getDatetime().getStart(),
+                                feature.getProperties().getDatetime().getEnd(),
+                                geojson.getFeatures().get(0).getProperties().getDatetime().getEnd()
+                            ) &&
+                                feature.getProperties().getBand().toLowerCase().equals(geojson.getFeatures().get(0).getProperties().getBand().toLowerCase())
                     ) {
-                        result.add(cat);
+                        result.getFeatures().add(feature);
+                        result.setNumberMatched(result.getNumberMatched() + 1);
                         break;
                     }
                 }
             }
+            result.setNumberReturned(result.getFeatures().size());
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList<Catalog>();
+            return new Item();
         }
     }
 
     @Override
     public Catalog findById(Long id) {
-        List<Catalog> catalogs = this.list();
+        List<Catalog> catalogs = this.listCatalog();
         Catalog result = new Catalog();
         for (Catalog catalog : catalogs) {
             if (catalog.getId().equals(id)) {
