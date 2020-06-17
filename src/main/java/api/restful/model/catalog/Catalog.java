@@ -1,8 +1,5 @@
-package api.restful.model;
+package api.restful.model.catalog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;

@@ -1,29 +1,41 @@
 package api.restful.model.geojson;
 
 public class Properties {
-    private String name;
-    private String description;
+    private String projection;
+    private String band;
+    private Datetime datetime;
 
     public Properties() {}
 
-    public Properties(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public Properties(String projection, String band, Datetime datetime) {
+        this.projection = projection;
+        this.band = band;
+        this.datetime = datetime;
     }
 
-    public String getName() {
-        return this.name;
+    public String getProjection() {
+        return this.projection;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProjection(String projection) {
+        this.projection = projection;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getBand() {
+        return this.band;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBand(String band) {
+        this.band = band;
     }
+
+    public Datetime getDatetime() {
+        return this.datetime;
+    }
+
+    public void setDatetime(Datetime datetime) {
+        this.datetime = datetime;
+    }
+
+
 }

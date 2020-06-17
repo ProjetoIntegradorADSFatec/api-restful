@@ -89,32 +89,53 @@ CONTAINER ID        IMAGE                  COMMAND                  CREATED     
 GET localhost:4040/catalog/list
 ```
 ~~~json
-[
+{
+  "features": [
     {
-        "id": 1,
-        "name": "clip_20170612T083546_Sigma0_VH_db",
-        "description": "sentinel A image clip_Sigma0_VH_db.tif INPE",
-        "band": "VH",
-        "dateTime": "2017-06-12 08:35:46",
+      "id": 1,
+      "assets": [
+        {
+          "name": "VH",
+          "href": "http://www.dpi.inpe.br/obt/agricultural-database/lem/dados/cenas/Sentinel1/20180408_S1A/clip_20180408T083549_Sigma0_VH_db.tif"
+        }
+      ],
+      "bbox": [
+        -45.8734130859375,
+        -12.042006714207925,
+        -45.7415771484375,
+        -12.224602049269444
+      ],
+      "collection": "clip_20180408T083549_Sigma0_VH_db.tif",
+      "geometry": {
+        "type": "Polygon",
         "coordinates": [
-            {
-                "id": 1,
-                "projection": "EPSG:4326",
-                "latitude": -12.042006714207925,
-                "longitude": -45.8734130859375,
-                "catalog": null
-            },
-            {
-                "id": 2,
-                "projection": "EPSG:4326",
-                "latitude": -12.224602049269444,
-                "longitude": -45.7415771484375,
-                "catalog": null
-            }
-        ],
-        "image": "http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
+          [
+            [
+              -12.042006714207925,
+              -45.8734130859375
+            ],
+            [
+              -12.224602049269444,
+              -45.7415771484375
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "projection": "EPSG:4326",
+        "band": "VH",
+        "datetime": {
+          "start": "2018-01-08T02:04:00.000+0000",
+          "end": "2018-01-08T02:04:00.000+0000"
+        }
+      },
+      "type": "sentinel A image clip_Sigma0_VH_db.tif INPE"
     }
-]
+  ],
+  "numberMatched": 17,
+  "numberReturned": 19,
+  "type": "FeatureCollection"
+}
 ~~~
 
 > **Cadastro de imagens:** cadastra uma imagem com os atributos definidos nos [exemplos](./docs/examples) no banco de dados PostgreSQL por método POST:
@@ -151,31 +172,30 @@ POST localhost:4040/catalog/search
 ```
 ~~~json
 {
-  "dateTime": {
-    "start": "2017-01-01",
-    "end": "2018-12-31"
-  },
-  "band" : "VV",
-  "geojson" : {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {},
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-              [
-                -47.3016357421875,
-                -11.248449735768247
-              ],
-              ...
-            ]
-          ]
-        }
+	"type": "FeatureCollection",
+	"features": [
+	  {
+      "type": "Feature",
+      "properties": {
+        "dateTime": {
+        "start": "2010-01-01",
+        "end": "2017-12-31"
+        },
+        "band": "VV",
+        "projection": "EPSG:4326"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [
+          -47.02148437499999,
+          -10.790140750321738
+          ],
+          ...
+        ]]
       }
-    ]
-  }
+    }
+	]
 }
 ~~~
 
