@@ -19,12 +19,10 @@ $ docker run -d -p 8686:8080 --name geoserver -e STABLE_EXTENSIONS=charts-plugin
 
 # Postagem das camadas
 
-```
-## Camadas necessárias para a execução
+Camadas necessárias para a execução:
 
-    TODO
-
-```
+- **[Postagem de camadas em Geotiff](https://docs.geoserver.org/stable/en/user/data/raster/geotiff.html)**: postagem das camadas das imagens de sensoriamento remoto do servidor FTP do INPE com os satélites Landsat e Sentinel-1;
+- **[Postagem de Geometrias](https://www.google.com/url?q=https://docs.geoserver.org/stable/en/user/gettingstarted/shapefile-quickstart/index.html&sa=D&source=calendar&usd=2&usg=AOvVaw2oUDSmd3w1dZlnpITE-sHy)**: postagem das geometrias relacionadas a definição de talhões como resultado do sistema inteligente [PythonCNN](https://github.com/ProjetoIntegradorADSFatec/python-cnn);
 
 Verificar se o sistema encontra em execução no endereço [`localhost:8686/geoserver`](https://localhost:8686/geoserver) e a página de administração do geoserver deverá ser exibida.
 
