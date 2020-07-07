@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import api.restful.model.catalog.*;
+import api.restful.services.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,16 +25,20 @@ import api.restful.model.catalog.*;
 class ApiRestfulApplicationTests {
 
 	@Autowired
-	private CatalogRepository catalogRepository;
+	private CatalogServiceImpl service;
+
 	@Autowired
-	private CoordinateRepository coordinateRepository;
+	private CatalogRepository catalogRepository;
+
+	@Autowired
+	private CatalogRepository coordinateRepository;
 
 	private final static String test_projection = "EPSG:4326";
 
 	@Test
 	public void insertInCatalog() {
 		/*
-			 Insere um catálogo no banco de dados com mais de uma coordenada e
+			Insere um catálogo no banco de dados com mais de uma coordenada e
 			excecuta testes para garantir que tanto o catálogo e as coordenadas
 			foram salvas no banco (possuem id válido).
 		*/
@@ -45,9 +50,6 @@ class ApiRestfulApplicationTests {
 			new ArrayList<Coordinate>(),
 			"http://www.dpi.inpe.br/agricultural-database/lem/dados/cenas/Sentinel1/20170612_S1A/clip_20170612T083546_Sigma0_VH_db.tif"
 		);
-		catalogRepository.save(catalog);
-		// First Step
-		assertTrue(catalog.getId() != null);
 		// Coordinate Test
 		List<Coordinate> coordinates = new ArrayList<Coordinate>();
 		coordinates.add(new Coordinate(
@@ -63,12 +65,8 @@ class ApiRestfulApplicationTests {
 			catalog
 		));
 		catalog.setCoordinates(coordinates);
-		catalogRepository.save(catalog);
-		coordinateRepository.saveAll(catalog.getCoordinates());
-		// Assuring that it's saved
-		for(Coordinate c : catalog.getCoordinates()) {
-			assertTrue(c.getId() != null);
-		}
+		service.add(catalog);
+		assertTrue(service.listCatalog().size() >= 0);
 	}
 
 	@Test
@@ -77,7 +75,7 @@ class ApiRestfulApplicationTests {
 			 Salva um catálogo, verifica que foi salvo, então adiciona as coordenadas ao catálogo
 			e depois verifica se as tais coordenadas foram de fato salvas.
 		*/
-		assert(catalogRepository.count() == 0);
+		assertTrue(service.listCatalog().size() > 0);
 		Catalog catalog = new Catalog(
 			"clip_20170928T083551_Sigma0_VV_db",
 			"sentinel A image clip_Sigma0_VV_db.tif INPE",
@@ -86,9 +84,8 @@ class ApiRestfulApplicationTests {
 			new ArrayList<Coordinate>(),
 			"http://www.dpi.inpe.br/obt/agricultural-database/lem/dados/cenas/Sentinel1/20170928_S1A/clip_20170928T083551_Sigma0_VV_db.tif"
 		);
-		catalogRepository.save(catalog);
-		assertTrue(catalog.getId() != null);
-		assertFalse(catalogRepository.count() > 1);
+		service.add(catalog);
+		assertTrue(service.listCatalog().size() > 1);
 		List<Coordinate> coordinates = new ArrayList<Coordinate>();
 		coordinates.add(new Coordinate(
 			test_projection,
@@ -103,8 +100,8 @@ class ApiRestfulApplicationTests {
 			catalog
 		));
 		catalog.setCoordinates(coordinates);
-		catalogRepository.save(catalog);
-		assertFalse(catalogRepository.count() > 1);
+		service.add(catalog);
+		assertFalse(service.listCatalog().size() < 2);
 	}
 
 	@Test
@@ -114,12 +111,11 @@ class ApiRestfulApplicationTests {
 			verifica se o catálogo está registrado e se seu nome está salvo corretamente.
 		*/
 		this.insertInCatalog();
-		assertFalse(catalogRepository.count() == 0);
-		assertTrue(catalogRepository.count() == 1);
+		assertFalse(service.listCatalog().size() == 0);
 		// assertTrue(catalogRepository.existsById(1L) == true);
-		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		List<Catalog> items = (List<Catalog>) service.listCatalog();
 		Catalog last = items.get(items.size() - 1);
-		assertTrue(last.getName() == "clip_20170612T083546_Sigma0_VH_db");
+		assertTrue(last.getName().equals("clip_20170612T083546_Sigma0_VH_db"));
 	}
 
 	@Test
@@ -130,13 +126,13 @@ class ApiRestfulApplicationTests {
 			verifica se a coordenada foi de fato removida.
 		*/
 		this.insertInCatalog();
-		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		List<Catalog> items = (List<Catalog>) service.listCatalog();
 		// Pode ser otimizado para uma query JPQL
 		Catalog last = items.get(items.size() - 1);
 		int coord_size = last.getCoordinates().size();
 		assertTrue(coord_size > 1);
 		Coordinate coord_item  = last.getCoordinates().remove(1);
-		catalogRepository.save(last);
+		service.add(last);
 		assert(last.getCoordinates().size() == (coord_size - 1));
 		for(Coordinate coord : last.getCoordinates()) {
 			assertFalse(coord.getId() == coord_item.getId());
@@ -150,11 +146,11 @@ class ApiRestfulApplicationTests {
 			suas coordenadas (Entidade Fraca) foram excluídas.
 		*/
 		this.insertInCatalog();
-		assertFalse(catalogRepository.count() == 0);
-		List<Catalog> items = (List<Catalog>) catalogRepository.findAll();
+		assertFalse(service.listCatalog().size() == 0);
+		List<Catalog> items = (List<Catalog>) service.listCatalog();
 		Catalog last = items.get(items.size() - 1);
 		List<Coordinate> coordinates = last.getCoordinates();
-		catalogRepository.delete(last);
+		service.remove(last);
 		assertFalse(catalogRepository.existsById(last.getId()));
 		// As coordenadas são uma Entidade Fraca, dependem exclusivamente de Catálogo para existir
 		for(Coordinate coord : coordinates) {

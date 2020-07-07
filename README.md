@@ -83,11 +83,43 @@ CONTAINER ID        IMAGE                  COMMAND                  CREATED     
 
 # Operações
 
-> **Listagem:** lista todas as imagens cadastradas no banco de dados PostgreSQL por método GET:
+> **Cadastro de usuários:** somente o usuário admin pode adicionar outros usuários, a partir de um método POST:
+
+```
+POST localhost:4040/login
+```
+
+> Request Body
+
+~~~json
+{
+  "username" : "admin",
+  "password" : "admin"
+}
+~~~
+
+```
+POST localhost:4040/users/sign-up
+```
+
+> Request Body
+
+~~~json
+{
+  "username" : "fulano",
+  "password" : "123"
+}
+~~~
+
+
+> **Listagem:** lista todas as imagens cadastradas no banco de dados PostgreSQL por método GET, onde todos os usuários podem acessar a lista de imagens:
 
 ```
 GET localhost:4040/catalog/list
 ```
+
+> Response
+
 ~~~json
 {
   "features": [
@@ -138,11 +170,14 @@ GET localhost:4040/catalog/list
 }
 ~~~
 
-> **Cadastro de imagens:** cadastra uma imagem com os atributos definidos nos [exemplos](./docs/examples) no banco de dados PostgreSQL por método POST:
+> **Cadastro de imagens:** cadastra uma imagem com os atributos definidos nos [exemplos](./docs/examples) no banco de dados PostgreSQL por método POST, onde somente o usuário administrador pode adicionar imagens:
 
 ```
 POST localhost:4040/catalog/add
 ```
+
+> Request Body
+
 ~~~json
 {
     "name": "clip_20170612T083546_Sigma0_VH_db",
@@ -165,11 +200,14 @@ POST localhost:4040/catalog/add
 }
 ~~~
 
-> **Busca de imagens:** busca imagens a partir de uma dado polígono formatado em [GeoJSON](https://geojson.org/) com os atributos definidos nos [exemplos](./docs/examples) em projeção **EPSG:4326** com banco de dados PostgreSQL por método POST:
+> **Busca de imagens:** busca imagens a partir de uma dado polígono formatado em [GeoJSON](https://geojson.org/) com os atributos definidos nos [exemplos](./docs/examples) em projeção **EPSG:4326** com banco de dados PostgreSQL por método POST, todos os usuários podem realizar pesquisas:
 
 ```
 POST localhost:4040/catalog/search
 ```
+
+> Request Body
+
 ~~~json
 {
 	"type": "FeatureCollection",
