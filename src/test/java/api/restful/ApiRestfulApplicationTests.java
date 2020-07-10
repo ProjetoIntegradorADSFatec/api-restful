@@ -27,12 +27,6 @@ class ApiRestfulApplicationTests {
 	@Autowired
 	private CatalogServiceImpl service;
 
-	@Autowired
-	private CatalogRepository catalogRepository;
-
-	@Autowired
-	private CatalogRepository coordinateRepository;
-
 	private final static String test_projection = "EPSG:4326";
 
 	@Test
@@ -105,20 +99,6 @@ class ApiRestfulApplicationTests {
 	}
 
 	@Test
-	public void searchInCatalog() {
-		/*
-			 Executa a inserção de catálogo do método insertInCatalog,
-			verifica se o catálogo está registrado e se seu nome está salvo corretamente.
-		*/
-		this.insertInCatalog();
-		assertFalse(service.listCatalog().size() == 0);
-		// assertTrue(catalogRepository.existsById(1L) == true);
-		List<Catalog> items = (List<Catalog>) service.listCatalog();
-		Catalog last = items.get(items.size() - 1);
-		assertTrue(last.getName().equals("clip_20170612T083546_Sigma0_VH_db"));
-	}
-
-	@Test
 	public void  deleteCoordinate() {
 		/*
 			 Insere um catálogo no banco de dados com mais de uma coordenada e
@@ -138,24 +118,4 @@ class ApiRestfulApplicationTests {
 			assertFalse(coord.getId() == coord_item.getId());
 		}
 	}
-
-	@Test
-	public void deleteCatalog() {
-		/*
-			 Insere um catálogo no sistema e o excluí verificando também se
-			suas coordenadas (Entidade Fraca) foram excluídas.
-		*/
-		this.insertInCatalog();
-		assertFalse(service.listCatalog().size() == 0);
-		List<Catalog> items = (List<Catalog>) service.listCatalog();
-		Catalog last = items.get(items.size() - 1);
-		List<Coordinate> coordinates = last.getCoordinates();
-		service.remove(last);
-		assertFalse(catalogRepository.existsById(last.getId()));
-		// As coordenadas são uma Entidade Fraca, dependem exclusivamente de Catálogo para existir
-		for(Coordinate coord : coordinates) {
-			assertFalse(coordinateRepository.existsById(coord.getId()));
-		}
-	}
-
 }
