@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.awt.Point;
 import java.awt.Polygon;
 
@@ -25,7 +27,10 @@ public class CatalogServiceImpl implements CatalogService {
 
     public List<Catalog> listCatalog() {
         try {
-            List<Catalog> catalog_response = coordinateRepository.listAll();;
+            List<Catalog> catalog_response = coordinateRepository.listAll();
+            Set<Catalog> set = new HashSet<>(catalog_response);
+            catalog_response.clear();
+            catalog_response.addAll(set);
             return catalog_response;
         } catch (Exception e) {
             e.printStackTrace();
