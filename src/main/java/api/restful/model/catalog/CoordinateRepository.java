@@ -12,4 +12,7 @@ public interface CoordinateRepository extends CrudRepository<Coordinate, Long> {
 
     @Query(value = "select cat from Coordinate coord inner join coord.catalog cat where cat.id = :id order by cat.id")
     List<Catalog> find(Long id);
+
+    @Query(value = "select cat from Coordinate coord inner join coord.catalog cat where cat.name = :name and cat.band = :band order by cat.id")
+    List<Catalog> findByNameBand(String name, String band);
 }

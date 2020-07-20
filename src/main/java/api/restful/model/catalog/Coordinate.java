@@ -8,16 +8,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import api.restful.model.views.Views;
+
 @Entity
 @Table(name="coordinate")
 public class Coordinate {
     @Id
+    @JsonView(Views.Internal.class)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonView(Views.Public.class)
     private String projection;
+
+    @JsonView(Views.Public.class)
     private double latitude;
+
+    @JsonView(Views.Public.class)
     private double longitude;
+
     @ManyToOne
+    @JsonView(Views.Internal.class)
     @JoinColumn(name="catalog_id")
     private Catalog catalog;
 
