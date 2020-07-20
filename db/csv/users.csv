@@ -1,2 +1,2 @@
-id;username;password
-1;admin;$2a$10$Iy9nZ.bPRh87DKMJfipQSur5zLO8TZXeDzd/57mE5KCt2IPAPiqp.
+id;username;password;admin
+1;admin;$2a$10$Iy9nZ.bPRh87DKMJfipQSur5zLO8TZXeDzd/57mE5KCt2IPAPiqp.;true

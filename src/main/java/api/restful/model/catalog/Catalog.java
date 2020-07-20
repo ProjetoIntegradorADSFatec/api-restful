@@ -11,18 +11,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import api.restful.model.views.Views;
+
 @Entity
 @Table(name = "catalog")
 public class Catalog {
     @Id
+    @JsonView(Views.Internal.class)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonView(Views.Public.class)
     private String name;
+
+    @JsonView(Views.Public.class)
     private String description;
+
+    @JsonView(Views.Public.class)
     private String band;
+
+    @JsonView(Views.Public.class)
     private String dateTime;
+
+    @JsonView(Views.Public.class)
     @OneToMany(targetEntity = Coordinate.class, mappedBy = "catalog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Coordinate> coordinates;
+
+    @JsonView(Views.Public.class)
     private String image;
 
     public Catalog() {}

@@ -55,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                     .sign(HMAC512(SECRET.getBytes()));
-        ResponseToken response = new ResponseToken(200, token,"Use this token to API CRUD options");
+        ResponseToken response = new ResponseToken(200, token, true, "Use this token to API CRUD options");
         String jsonString = new Gson().toJson(response);
         PrintWriter out = res.getWriter();
         res.addHeader(HEADER_STRING, token);

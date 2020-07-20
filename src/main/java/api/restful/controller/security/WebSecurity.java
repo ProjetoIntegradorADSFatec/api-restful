@@ -13,17 +13,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import api.restful.services.UserDetailsServiceImpl;
 import api.restful.controller.jwt.JWTAuthorizationFilter;
+import api.restful.model.user.AuthUser;
 import api.restful.controller.jwt.JWTAuthenticationFilter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import static api.restful.controller.security.SecurityConstants.SIGN_UP_URL;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+  @Autowired
   private UserDetailsServiceImpl userDetailsService;
+
+  @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -34,14 +39,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable().authorizeRequests()
-      .antMatchers(HttpMethod.GET, "/catalog/list").permitAll();
-    http.cors().and().csrf().disable().authorizeRequests()
-      .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+      .antMatchers(HttpMethod.POST, "/users/sign-up").permitAll()
+      .antMatchers(HttpMethod.GET, "/catalog/list").permitAll()
         .anyRequest().authenticated()
           .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-              .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
   @Override
