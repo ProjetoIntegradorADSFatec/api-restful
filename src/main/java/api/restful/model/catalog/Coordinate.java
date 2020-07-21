@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import api.restful.model.views.Views;
 
 @Entity
-@Table(name="coordinate")
+@Table(name = "coordinate")
 public class Coordinate {
     @Id
     @JsonView(Views.Internal.class)
@@ -30,7 +30,7 @@ public class Coordinate {
 
     @ManyToOne
     @JsonView(Views.Internal.class)
-    @JoinColumn(name="catalog_id")
+    @JoinColumn(name = "catalog_id")
     private Catalog catalog;
 
     public Coordinate() {}
