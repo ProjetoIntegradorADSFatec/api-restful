@@ -4,15 +4,15 @@ public class ResponseToken {
     private int code;
     private String token;
 	private String description;
-	private boolean admin;
+	private UserCache user;
 
     public ResponseToken() { }
 
-    public ResponseToken(int code, String token, Boolean admin, String description) {
+    public ResponseToken(int code, String token, UserCache user, String description) {
         this.code = code;
 		this.token = token;
-		this.admin = admin;
-        this.description = description;
+		this.user = user;
+		this.description = description;
     }
 
 	public int getCode() {
@@ -27,6 +27,14 @@ public class ResponseToken {
 		return this.token;
 	}
 
+	public void setUser(UserCache user) {
+		this.user = user;
+	}
+
+	public UserCache getUser() {
+		return this.user;
+	}
+
 	public void setToken(String token) {
 		this.token = token;
 	}
@@ -37,13 +45,5 @@ public class ResponseToken {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public boolean isAdmin() {
-		return this.admin;
-	}
-
-	public void update(boolean admin) {
-		this.admin = admin;
 	}
 }

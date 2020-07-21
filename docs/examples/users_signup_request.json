@@ -1,0 +1,7 @@
+{
+    "username": "fulano",
+    "password": "123",
+    "authorizations": [
+    	{ "type": "ROLE_USER" }
+    ]
+}

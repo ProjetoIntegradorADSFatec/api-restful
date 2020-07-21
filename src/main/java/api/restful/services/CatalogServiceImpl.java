@@ -1,6 +1,5 @@
 package api.restful.services;
 
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -138,8 +137,8 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean remove(Catalog catalog) {
         try {
             this.catalogRepository.delete(catalog);
@@ -154,8 +153,8 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean add(Catalog catalog) {
         try {
             Catalog cat = new Catalog(

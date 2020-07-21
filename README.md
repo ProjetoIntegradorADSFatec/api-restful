@@ -106,11 +106,13 @@ POST localhost:4040/users/sign-up
 
 ~~~json
 {
-  "username" : "fulano",
-  "password" : "123"
+    "username": "fulano",
+    "password": "123",
+    "authorizations": [
+    	{ "type": "ROLE_USER" }
+    ]
 }
 ~~~
-
 
 > **Listagem:** lista todas as imagens cadastradas no banco de dados PostgreSQL por método GET, onde todos os usuários podem acessar a lista de imagens:
 
