@@ -22,20 +22,20 @@ public class AuthorizationServiceImpl {
     private AuthorizationRepository authorizationRepository;
 
     @Transactional(readOnly = true)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public List<AuthUser> listAll() {
         return this.authorizationRepository.listAll();
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public AuthUser findById(Long id) {
         return this.authorizationRepository.find(id).get(0);
     }
 
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public AuthUser findByUsername(String username) {
         return this.authorizationRepository.findUser(username.toLowerCase()).get(0);
     }
@@ -57,7 +57,7 @@ public class AuthorizationServiceImpl {
         return user;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public AuthUser updateUser(Long id, AuthUser user) {
         AuthUser usr = this.authorizationRepository.find(id).get(0);
         usr.setUsername(user.getUsername());

@@ -90,6 +90,7 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public Item search(Geojson geojson) {
         Item item = this.listItems();
         Item result = new Item(new ArrayList<Feature>(), 0, 0, "FeatureCollection");
@@ -131,6 +132,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public Catalog findById(Long id) {
         List<Catalog> result = this.coordinateRepository.find(id);
         return result.get(0);
