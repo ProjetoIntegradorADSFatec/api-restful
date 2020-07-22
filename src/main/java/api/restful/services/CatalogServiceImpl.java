@@ -2,6 +2,7 @@ package api.restful.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class CatalogServiceImpl implements CatalogService {
     private CoordinateRepository coordinateRepository;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Catalog> listCatalog() {
         try {
             List<Catalog> catalog_response = coordinateRepository.listAll();
@@ -131,16 +132,16 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     public Catalog findById(Long id) {
         List<Catalog> result = this.coordinateRepository.find(id);
         return result.get(0);
     }
 
     @Override
-    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean remove(Catalog catalog) {
         try {
             this.catalogRepository.delete(catalog);
@@ -155,8 +156,8 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean add(Catalog catalog) {
         try {
             Catalog cat = new Catalog(
