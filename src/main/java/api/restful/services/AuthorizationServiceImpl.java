@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Service("UserService")
-@Transactional
 public class AuthorizationServiceImpl {
 
     @Autowired
@@ -21,26 +20,26 @@ public class AuthorizationServiceImpl {
     @Autowired
     private AuthorizationRepository authorizationRepository;
 
-    @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     public List<AuthUser> listAll() {
         return this.authorizationRepository.listAll();
     }
 
-    @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     public AuthUser findById(Long id) {
         return this.authorizationRepository.find(id).get(0);
     }
 
-
-    @Transactional(readOnly = true)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     public AuthUser findByUsername(String username) {
         return this.authorizationRepository.findUser(username.toLowerCase()).get(0);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public AuthUser createUser(AuthUser user) {
         AuthUser usr = new AuthUser();
         usr.setUsername(user.getUsername());
@@ -58,6 +57,7 @@ public class AuthorizationServiceImpl {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public AuthUser updateUser(Long id, AuthUser user) {
         AuthUser usr = this.authorizationRepository.find(id).get(0);
         usr.setUsername(user.getUsername());
@@ -75,6 +75,7 @@ public class AuthorizationServiceImpl {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public AuthUser deleteUser(Long id) {
         AuthUser usr = this.authorizationRepository.find(id).get(0);
         this.authUserRepository.delete(usr);
