@@ -47,7 +47,7 @@ ALTER TABLE public.user_authorizations
 -- Copiando os dados do usuário admin para o banco de dados a partir de um arquivo em csv
 
 \COPY public.users FROM 'csv/users.csv' DELIMITER ';' CSV HEADER;
-\COPY public.authorization FROM 'csv/user_authorizations.csv' DELIMITER ';' CSV HEADER;
+\COPY public.user_authorizations FROM 'csv/user_authorizations.csv' DELIMITER ';' CSV HEADER;
 
 -- Criação da tabela para o cadastro de municípios
 
